@@ -1,10 +1,4 @@
----
-title: "Prediction Model"
-author: "N. Cheikh"
-date: "5/7/2018"
-output: html_document
----
-Load The Clean Datasets
+## Load The Clean Datasets
 ```{r}
 cleantraining <- read.csv("cleantraining.csv") #load the clean training set
 cleantesting <- read.csv("cleantesting.csv") #load the clean testing set
@@ -18,7 +12,7 @@ levels.window <- levels(cleantraining$new_window) #do the same for the new_windo
 levels(cleantesting$new_window) <- levels.window
 ```
 ## Partition the In-Sample Testing and Training Sets
-Partition the cleantraining data into two sections: 70% for training the model and 30% to test how well the model predicts
+Partition the *cleantraining* data into two sections: 70% for training the model and 30% to test how well the model predicts and to not overfit the data.
 ```{r}
  set.seed(1234) #random number generator; randomize selecetion of the sample subsets
  trainingRowIndex<-sample(1:nrow(cleantraining), size = .7*nrow(cleantraining)) 
@@ -42,15 +36,16 @@ model.nc <- best.svm(classe~.-X -new_window, data = trainingData1, cost = 2^(2:8
 #radial kernal:radial basis function (RBF)/Gaussian kernel; used to get the best predictive performance
 ```
 
-Test/Cross-Validate Model
-To evaluate how well this model is at predicting the classe classifications, I used the 
+## Test/Cross-Validate Model
+The evaluation of how well this model is at predicting the classe classifications.
 ```{r}
 predict1 <- predict(model.nc, testData1) #creates prediction of classe with the in-sample testing data
 confusionMatrix(predict1,testData1$classe)
 #table to describe the perfomance of the classification model
 #Results: 99.49% Accurate; 95% CI = (0.9927, 0.9966); p-value < 2.2e-16
 ```
-
+## Predict The Out-of-Sample Classifications
+The prediction of the the out-of-sample dataset class.
 ```{r}
 predict <- predict(model.nc, cleantesting)
 ```
