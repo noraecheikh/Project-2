@@ -4,22 +4,30 @@ author: "N. Cheikh"
 date: "5/7/2018"
 output: html_document
 ---
+Load The Clean Datasets
 ```{r}
-cleantraining <- read.csv("cleantraining.csv")
-cleantesting <- read.csv("cleantesting.csv")
-levels.time <- levels(cleantraining$cvtd_timestamp)
-levels(cleantesting$cvtd_timestamp) <- levels.time
-levels.window <- levels(cleantraining$new_window)
+cleantraining <- read.csv("cleantraining.csv") #load the clean training set
+cleantesting <- read.csv("cleantesting.csv") #load the clean testing set
+```
+## Fix the Levels of the Testing Set
+The levels of the testing set do not match the levels of the training set because the testing set only has 20 observations, so the levels do not vary as much.
+```{r}
+levels.time <- levels(cleantraining$cvtd_timestamp) #create vector of the levels of the cvtd_timestamp
+levels(cleantesting$cvtd_timestamp) <- levels.time #change the levels of cvtd_timestamp in the testing set to match the training set
+levels.window <- levels(cleantraining$new_window) #do the same for the new_window variable
 levels(cleantesting$new_window) <- levels.window
 ```
-Partition the In-Sample Testing and Training Sets
+## Partition the In-Sample Testing and Training Sets
+Partition the cleantraining data into two sections: 70% for training the model and 30% to test how well the model predicts
 ```{r}
- set.seed(1234)
- trainingRowIndex<-sample(1:nrow(cleantraining), size = .7*nrow(cleantraining)) #partition 70% of the data for the training, 30% of the data for testing
+ set.seed(1234) #random number generator; randomize selecetion of the sample subsets
+ trainingRowIndex<-sample(1:nrow(cleantraining), size = .7*nrow(cleantraining)) 
+ #partition 70% of the data for the training, 30% of the data for testing
  trainingData1<-cleantraining[trainingRowIndex, ] #create training set
  testData1 <-cleantraining[-trainingRowIndex, ] #create testing set
 ```
-Support Vector Machine Model
+## Support Vector Machine Model
+A support vector machine is a supervised learning model that can be used for classification. After researching other studies that predicted movement data, I found the support vector machine to be a popular choice of model. I used all of the variables, except for the *X* and the *new_window* variables. To find the optimal parameters, I tuned the model using command {best.svm()} that did a grid search which creates a set of models and cross-validates to find the best model. The model has 2976 support vectors.
 ```{r}
 install.packages(e1071) #for the support vector machine (svm) commands 
 library(e1071)
@@ -32,10 +40,10 @@ model.nc <- best.svm(classe~.-X -new_window, data = trainingData1, cost = 2^(2:8
 #new_window: this is a dummy variable; in the test dataframe, all the observations are "no", so it is not informative
 #cost is a tuning parameter for C-classification; weight for the soft margin
 #radial kernal:radial basis function (RBF)/Gaussian kernel; used to get the best predictive performance
-#The Model has 2976 support vectors
 ```
 
-Test Model
+Test/Cross-Validate Model
+To evaluate how well this model is at predicting the classe classifications, I used the 
 ```{r}
 predict1 <- predict(model.nc, testData1) #creates prediction of classe with the in-sample testing data
 confusionMatrix(predict1,testData1$classe)
