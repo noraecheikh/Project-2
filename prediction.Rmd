@@ -3,7 +3,40 @@ Group 5
 by: Derek Fine, Dexter Offer, Matt Webber, Mitchell Stephens, and Nora Cheikh
 
 ## Section 1: Executive Summary and Documentation of Preprocessing
+
 {Executive Summary}
+### Cleaning Process
+#### Pull in Raw Datasets
+Data was downloaded onto desktop from: https://github.com/slevkoff/ECON386REPO/tree/master/Prediction%20Project
+First, the csv files were loaded into R.
+The raw training dataset has 160 variables and 19,622 observations.
+The raw testing dataset has 160 variables and 20 observations.
+```{r} 
+setwd("~/Desktop") #set the working directory
+filename <- "testing.csv" #create label for filename
+Testing <- read.csv(filename) #pull csv data frame into RStudio
+filename <- "training.csv" #create label for filename
+Training <- read.csv(filename) #pull csv data frame into RStudio
+```
+#### Removal of NAs and empty variables
+Some of the variables were removed because all or most of the values were NA or empty vectors. 
+```{r}
+testing1 <- Filter(function(x)!all(is.na(x) || is.null(x) || x == "" || x == 0), Testing) #remove columns that are empty or have NAs
+testing1$problem_id <-NULL #remove the "problem_id" column from testing data
+training1 <- Training[ , colSums(is.na(Training)) == 0]
+testing1names <- colnames(testing1)
+write.table(testing1names, file="testingnames.txt")
+training1names <- colnames(training1)
+write.table(training1names, file="training1names.txt")
+#compare the column names
+training2 <- training1[ -c(12:20,43:48,52:60,74:82) ] #manually remove the columns that are in training1 but not in testing1 and label new data frame training2
+```
+#### Save the Clean Datasets
+The new datasets should preserve the original number of observations and change the number of variables in the training set to 60 and in the testing set to 59.
+```{r}
+write.csv(training2, file="cleantraining.csv", row.names = FALSE)
+write.csv(testing1, file="cleantesting.csv", row.names = FALSE)
+```
 
 ## Section 2: Model Proposed by
 
