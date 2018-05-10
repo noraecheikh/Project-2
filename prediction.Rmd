@@ -19,7 +19,7 @@ filename <- "training.csv" #create label for filename
 Training <- read.csv(filename) #pull csv data frame into RStudio
 ```
 #### Removal of NAs and empty variables
-Some of the variables were removed because all or most of the values were NA or empty vectors. 
+> Some of the variables were removed because all or most of the values were NA or empty vectors. 
 ```{r}
 testing1 <- Filter(function(x)!all(is.na(x) || is.null(x) || x == "" || x == 0), Testing) #remove columns that are empty or have NAs
 testing1$problem_id <-NULL #remove the "problem_id" column from testing data
@@ -32,7 +32,7 @@ write.table(training1names, file="training1names.txt")
 training2 <- training1[ -c(12:20,43:48,52:60,74:82) ] #manually remove the columns that are in training1 but not in testing1 and label new data frame training2
 ```
 #### Save the Clean Datasets
-The new datasets should preserve the original number of observations and change the number of variables in the training set to 60 and in the testing set to 59.
+> The new datasets should preserve the original number of observations and change the number of variables in the training set to 60 and in the testing set to 59.
 ```{r}
 write.csv(training2, file="cleantraining.csv", row.names = FALSE)
 write.csv(testing1, file="cleantesting.csv", row.names = FALSE)
@@ -53,7 +53,7 @@ cleantraining <- read.csv("cleantraining.csv") #load the clean training set
 cleantesting <- read.csv("cleantesting.csv") #load the clean testing set
 ```
 ### Fix the Levels of the Testing Set
-The levels of the testing set do not match the levels of the training set because the testing set only has 20 observations, so the levels do not vary as much.
+> The levels of the testing set do not match the levels of the training set because the testing set only has 20 observations, so the levels do not vary as much.
 ```{r}
 levels.time <- levels(cleantraining$cvtd_timestamp) #create vector of the levels of the cvtd_timestamp
 levels(cleantesting$cvtd_timestamp) <- levels.time #change the levels of cvtd_timestamp in the testing set to match the training set
@@ -61,7 +61,7 @@ levels.window <- levels(cleantraining$new_window) #do the same for the new_windo
 levels(cleantesting$new_window) <- levels.window
 ```
 ### Partition the In-Sample Testing and Training Sets
-Partition the *cleantraining* data into two sections: 70% for training the model and 30% to test how well the model predicts and to not overfit the data.
+> Partition the *cleantraining* data into two sections: 70% for training the model and 30% to test how well the model predicts and to not overfit the data.
 ```{r}
  set.seed(1234) #random number generator; randomize selecetion of the sample subsets
  trainingRowIndex<-sample(1:nrow(cleantraining), size = .7*nrow(cleantraining)) 
@@ -70,7 +70,7 @@ Partition the *cleantraining* data into two sections: 70% for training the model
  testData1 <-cleantraining[-trainingRowIndex, ] #create testing set
 ```
 ### Support Vector Machine Model
-A support vector machine is a supervised learning model that can be used for classification. After researching other studies that predicted movement data, I found the support vector machine to be a popular choice of model. I used all of the variables, except for the *X* and the *new_window* variables. To find the optimal parameters, I tuned the model using command {best.svm()} that did a grid search which creates a set of models and cross-validates to find the best model. The model has 2976 support vectors.
+> A support vector machine is a supervised learning model that can be used for classification. After researching other studies that predicted movement data, I found the support vector machine to be a popular choice of model. I used all of the variables, except for the *X* and the *new_window* variables. To find the optimal parameters, I tuned the model using command {best.svm()} that did a grid search which creates a set of models and cross-validates to find the best model. The model has 2976 support vectors.
 ```{r}
 install.packages(e1071) #for the support vector machine (svm) commands 
 library(e1071)
@@ -86,14 +86,14 @@ model.nc <- best.svm(classe~.-X -new_window, data = trainingData1, cost = 2^(2:8
 ```
 
 ### Test/Cross-Validate Model
-The evaluation of how well this model is at predicting the classe classifications. From the confusion matrix, the model is found to be predict the testing set with 99.49% accuracy; the 95% confidence interval is between .9927 and .9966; the p-value is less than 2.2e-16.
+> The evaluation of how well this model is at predicting the classe classifications. From the confusion matrix, the model is found to be predict the testing set with 99.49% accuracy; the 95% confidence interval is between .9927 and .9966; the p-value is less than 2.2e-16.
 ```{r}
 predict1 <- predict(model.nc, testData1) #creates prediction of classe with the in-sample testing data
 confusionMatrix(predict1,testData1$classe)
 #table to describe the perfomance of the classification model
 ```
 ### Predict The Out-of-Sample Classifications
-The prediction of the the out-of-sample dataset class.
+> The prediction of the the out-of-sample dataset class.
 ```{r}
 predict <- predict(model.nc, cleantesting)
 ```
