@@ -1,0 +1,48 @@
+---
+title: "Prediction Model"
+author: "N. Cheikh"
+date: "5/7/2018"
+output: html_document
+---
+```{r}
+cleantraining <- read.csv("cleantraining.csv")
+cleantesting <- read.csv("cleantesting.csv")
+levels.time <- levels(cleantraining$cvtd_timestamp)
+levels(cleantesting$cvtd_timestamp) <- levels.time
+levels.window <- levels(cleantraining$new_window)
+levels(cleantesting$new_window) <- levels.window
+```
+Partition the In-Sample Testing and Training Sets
+```{r}
+ set.seed(1234)
+ trainingRowIndex<-sample(1:nrow(cleantraining), size = .7*nrow(cleantraining)) #partition 70% of the data for the training, 30% of the data for testing
+ trainingData1<-cleantraining[trainingRowIndex, ] #create training set
+ testData1 <-cleantraining[-trainingRowIndex, ] #create testing set
+```
+Support Vector Machine Model
+```{r}
+install.packages(e1071) #for the support vector machine (svm) commands 
+library(e1071)
+install.packages(caret) #for the confusion matrix
+library(caret)
+model.nc <- best.svm(classe~.-X -new_window, data = trainingData1, cost = 2^(2:8),  kernel = "radial")
+#use best.svm command to find the best predictive model; using a grid search over the parameter ranges
+#estimate classe based on all the variables (.), minus...
+#X: this is a id variable, since the observations are in order by class, it would memorize with this variable
+#new_window: this is a dummy variable; in the test dataframe, all the observations are "no", so it is not informative
+#cost is a tuning parameter for C-classification; weight for the soft margin
+#radial kernal:radial basis function (RBF)/Gaussian kernel; used to get the best predictive performance
+#The Model has 2976 support vectors
+```
+
+Test Model
+```{r}
+predict1 <- predict(model.nc, testData1) #creates prediction of classe with the in-sample testing data
+confusionMatrix(predict1,testData1$classe)
+#table to describe the perfomance of the classification model
+#Results: 99.49% Accurate; 95% CI = (0.9927, 0.9966); p-value < 2.2e-16
+```
+
+```{r}
+predict <- predict(model.nc, cleantesting)
+```
