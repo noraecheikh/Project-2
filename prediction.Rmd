@@ -97,7 +97,7 @@ Results of the Confusion Matrix
 ----------|--------
 Accuracy | 99.49%
 95% Confidence Interval | ( .9927, .9966)
-P-value | <2.2e^-16^
+P-value | <2.2e^{-16}$
 ### Predict The Out-of-Sample Classifications
 > The prediction of the the out-of-sample dataset class.
 ```{r}
