@@ -1,4 +1,4 @@
-<center> <h1> Prediction Project </h1> </center>
+# Prediction Project
 Group 5
 by: Derek Fine, Dexter Offer, Matt Webber, Mitchell Stephens, and Nora Cheikh
 
@@ -7,10 +7,10 @@ by: Derek Fine, Dexter Offer, Matt Webber, Mitchell Stephens, and Nora Cheikh
 {Executive Summary}
 ### Cleaning Process
 #### Pull in Raw Datasets
-Data was downloaded onto desktop from: https://github.com/slevkoff/ECON386REPO/tree/master/Prediction%20Project
-First, the csv files were loaded into R.
-The raw training dataset has 160 variables and 19,622 observations.
-The raw testing dataset has 160 variables and 20 observations.
+> Data was downloaded onto desktop from: https://github.com/slevkoff/ECON386REPO/tree/master/Prediction%20Project
+> First, the csv files were loaded into R.
+> The raw training dataset has 160 variables and 19,622 observations.
+> The raw testing dataset has 160 variables and 20 observations.
 ```{r} 
 setwd("~/Desktop") #set the working directory
 filename <- "testing.csv" #create label for filename
