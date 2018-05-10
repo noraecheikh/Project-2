@@ -93,6 +93,7 @@ confusionMatrix(predict1,testData1$classe)
 #table to describe the perfomance of the classification model
 ```
 Results of the Confusion Matrix
+ | 
 ----------|--------
 Accuracy | 99.49%
 95% Confidence Interval | (.9927,.9966)
