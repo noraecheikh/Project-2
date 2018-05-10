@@ -70,24 +70,22 @@ levels(cleantesting$new_window) <- levels.window
  testData1 <-cleantraining[-trainingRowIndex, ] #create testing set
 ```
 ### Support Vector Machine Model
-> A support vector machine is a supervised learning model that can be used for classification. After researching other studies that predicted movement data, I found the support vector machine to be a popular choice of model. I used all of the variables, except for the *X* and the *new_window* variables. To find the optimal parameters, I tuned the model using command {best.svm()} that did a grid search which creates a set of models and cross-validates to find the best model. The model has 2976 support vectors.
+> A support vector machine is a supervised learning model that can be used for classification. After researching other studies that predicted movement data, I found the support vector machine to be a popular choice of model for this particular type of data classification. I used the *e1071* R package to estimate the model.
+> I used all of the variables, except for the *X* and the *new_window* variables. *X* is an id variable and *new_window* indicates a change in window, which all values were 'no' in the testing data, so it is not informative. 
+> To find the optimal parameters, I tuned the model using command {best.svm()} that did a grid search which creates a set of models and cross-validates to find the best model. The cost is a tuning parameter for C-classification; it weights for the soft margin. I used a radial basis (RBF) function to get the best predictive performance based on the high number of variables in this dataset.
+> The model has 2976 support vectors.
 ```{r}
 install.packages(e1071) #for the support vector machine (svm) commands 
 library(e1071)
-install.packages(caret) #for the confusion matrix
-library(caret)
 model.nc <- best.svm(classe~.-X -new_window, data = trainingData1, cost = 2^(2:8),  kernel = "radial")
-#use best.svm command to find the best predictive model; using a grid search over the parameter ranges
-#estimate classe based on all the variables (.), minus...
-#X: this is a id variable, since the observations are in order by class, it would memorize with this variable
-#new_window: this is a dummy variable; in the test dataframe, all the observations are "no", so it is not informative
-#cost is a tuning parameter for C-classification; weight for the soft margin
-#radial kernal:radial basis function (RBF)/Gaussian kernel; used to get the best predictive performance
 ```
 
 ### Test/Cross-Validate Model
-> The evaluation of how well this model is at predicting the classe classifications. From the confusion matrix, the model is found to be predict the testing set with 99.49% accuracy; the 95% confidence interval is between .9927 and .9966; the p-value is less than 2.2e-16.
+> The evaluation of how well this model is at predicting the classe classifications. I used the *caret* R package to cross-validate the model. Using the predict() command, I used the model to predict the in-sample testing data.
+> To test how well the model predicted the in-sample testing data, I used a confusion matrix. A confusion matrix is a table that describes the performance of the classification test. Results are shown below.
 ```{r}
+install.packages(caret) #for the confusion matrix
+library(caret)
 predict1 <- predict(model.nc, testData1) #creates prediction of classe with the in-sample testing data
 confusionMatrix(predict1,testData1$classe)
 #table to describe the perfomance of the classification model
