@@ -1,4 +1,4 @@
-<center> <h1>Prediction Project</h1> </center>
+<center> <h1> Prediction Project </h1> </center>
 Group 5
 by: Derek Fine, Dexter Offer, Matt Webber, Mitchell Stephens, and Nora Cheikh
 
