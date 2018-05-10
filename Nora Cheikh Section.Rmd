@@ -37,12 +37,11 @@ model.nc <- best.svm(classe~.-X -new_window, data = trainingData1, cost = 2^(2:8
 ```
 
 ## Test/Cross-Validate Model
-The evaluation of how well this model is at predicting the classe classifications.
+The evaluation of how well this model is at predicting the classe classifications. From the confusion matrix, the model is found to be predict the testing set with 99.49% accuracy; the 95% confidence interval is between .9927 and .9966; the p-value is less than 2.2e-16.
 ```{r}
 predict1 <- predict(model.nc, testData1) #creates prediction of classe with the in-sample testing data
 confusionMatrix(predict1,testData1$classe)
 #table to describe the perfomance of the classification model
-#Results: 99.49% Accurate; 95% CI = (0.9927, 0.9966); p-value < 2.2e-16
 ```
 ## Predict The Out-of-Sample Classifications
 The prediction of the the out-of-sample dataset class.
