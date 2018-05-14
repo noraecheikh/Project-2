@@ -1,6 +1,6 @@
 # Prediction Project
-Group 5
-by: Derek Fine, Dexter Offer, Matt Webber, Mitchell Stephens, and Nora Cheikh
+> Group 5
+> by: Derek Fine, Dexter Offer, Matt Webber, Mitchell Stephens, and Nora Cheikh
 
 ## Section 1: Executive Summary and Documentation of Preprocessing
 {Executive Summary}
