@@ -3,7 +3,8 @@
 > by: Derek Fine, Dexter Offer, Matt Webber, Mitchell Stephens, and Nora Cheikh
 
 ## Section 1: Executive Summary and Documentation of Preprocessing
-{Executive Summary}
+This project includes five proposed machine learning models for classification predictions for body movement detection data. We all started with the same clean datasets and created individual models. We varied the type of model, random samples, and variables used. We chose the {insert model} because {insert reasons}.
+
 ### Cleaning Process
 #### Pull in Raw Datasets
 > Data was downloaded onto desktop from: https://github.com/slevkoff/ECON386REPO/tree/master/Prediction%20Project
