@@ -37,7 +37,61 @@ training2 <- training1[ -c(12:20,43:48,52:60,74:82) ] #manually remove the colum
 write.csv(training2, file="cleantraining.csv", row.names = FALSE)
 write.csv(testing1, file="cleantesting.csv", row.names = FALSE)
 ```
-## Section 2: Model Proposed by
+
+## Section 2: Model Proposed by Matt
+###Load the necessary libraries
+```{r}
+library(randomForest)
+library(confusionMatrix)
+```
+###Pull in the clean data
+```{r}
+cleantraining<-read.csv("cleantraining.csv")
+cleantesting<-read.csv("cleantesting.csv")
+```
+###Set the levels of the training and testing data equal for the cvtd_timestamp and new_window variables
+```{r}
+levels(cleantesting$cvtd_timestamp) <- levels(cleantraining$cvtd_timestamp)
+levels(cleantesting$new_window) <- levels(cleantraining$new_window) 
+```
+###Partition the training data to build the model
+```{r}
+set.seed(1234)
+trainingRowIndex<-sample(1:nrow(cleantraining), size = .8*nrow(cleantraining))
+trainingData<-cleantraining[trainingRowIndex, ]
+testData <-cleantraining[-trainingRowIndex, ]
+```
+###Create a Random Forest model using all variables except X
+```{r}
+Matt1<-randomForest(classe~.-X, trainingData, ntree=50, norm.votes=F)
+```
+###Test/Validate Matt1 model using the partitioned testing data (testData)
+```{r}
+pred_Matt<-predict(Matt1, testData)
+confusionMatrix(pred_Matt, testData$classe)
+```
+*Results of the confusionMatrix*
+-----|-----
+Accuracy|0.9992
+95% CI|0.9978, 0.9998
+P-Value|<2.2e-16
+
+Prediction|A|B|C|D|E
+----------|-|-|-|-|-
+A|1114|0|0|0|0
+B|0|721|0|0|0
+C|0|0|689|2|0
+D|0|0|0|663|1
+E|0|0|0|0|705
+
+###Predict on out-of-sample testing data (cleantesting)
+```{r}
+guess_Matt<-predict(Matt1, cleantesting)
+```
+*Prediction Results*
+Problem_id | 1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20
+------- | -|-|-|-|-|-|-|-|-|--|--|--|--|--|--|--|--|--|--|--
+__classe__|B|A|B|A|A|E|D|B|A|A|B|C|B|A|E|E|A|B|B|B
 
 ## Section 3: Model Proposed by
 
