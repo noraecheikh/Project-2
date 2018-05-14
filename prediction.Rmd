@@ -62,7 +62,7 @@ levels(cleantesting$new_window) <- levels.window
 ### Partition the In-Sample Testing and Training Sets
 > Partition the *cleantraining* data into two sections: 70% for training the model and 30% to test how well the model predicts and to not overfit the data.
 ```{r}
- set.seed(1234) #random number generator; randomize selecetion of the sample subsets
+ set.seed(1234) #random number generator; randomize selection of the sample subsets
  trainingRowIndex<-sample(1:nrow(cleantraining), size = .7*nrow(cleantraining)) 
  #partition 70% of the data for the training, 30% of the data for testing
  trainingData1<-cleantraining[trainingRowIndex, ] #create training set
