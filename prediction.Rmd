@@ -3,7 +3,6 @@ Group 5
 by: Derek Fine, Dexter Offer, Matt Webber, Mitchell Stephens, and Nora Cheikh
 
 ## Section 1: Executive Summary and Documentation of Preprocessing
-
 {Executive Summary}
 ### Cleaning Process
 #### Pull in Raw Datasets
@@ -37,7 +36,7 @@ training2 <- training1[ -c(12:20,43:48,52:60,74:82) ] #manually remove the colum
 write.csv(training2, file="cleantraining.csv", row.names = FALSE)
 write.csv(testing1, file="cleantesting.csv", row.names = FALSE)
 ```
-
+{Data Analysis?}
 ## Section 2: Model Proposed by
 
 ## Section 3: Model Proposed by
