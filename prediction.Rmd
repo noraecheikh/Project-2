@@ -240,16 +240,16 @@ confusionMatrix(p2, testingData$classe)
 Statistic|Value
 ---------|-----
 Accuracy|0.9993
-95% CI|0.9978, 0.9998
+95% CI|0.9983, 0.9998
 P-Value|<2.2e-16
 
 Prediction|A|B|C|D|E
 ----------|-|-|-|-|-
-A|1114|0|0|0|0
-B|0|721|0|0|0
-C|0|0|689|2|0
-D|0|0|0|663|1
-E|0|0|0|0|705
+A|1667|1|0|0|0
+B|0|1136||0|0
+C|0|0|1036|0|0
+D|0|0|0|956|1
+E|0|0|0|1|1088
 
 ### Predicting out of sample data
 >Prediction and Confusion Matrix -- out-of-sample test data.
