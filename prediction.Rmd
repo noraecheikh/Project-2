@@ -188,7 +188,7 @@ training_0$new_window <- NULL
 testing_0$cvtd_timestamp <- NULL
 training_0$cvtd_timestamp <- NULL
 ```
-### Removal of NA's 
+### Removal of NA's for train data
 >Saving a new data set that gets rid of all of the columns with NA's for the training data.
 ```{r}
 library(dplyr)
@@ -196,7 +196,7 @@ training_0[training_0 == ""] <- NA
 training_1 <- training_0 %>% select_if(~sum(!is.na(.)) > 0)
 training_2 <- training_1[,colMeans(is.na(training_1)) == 0] 
 ```
-### Removal of NA's
+### Removal of NA's for test data
 >Cleaning the data to get rid of the NA values in the out of sample testing set.
 ```{r}
 testing_0[testing_0 == ""] <- NA
@@ -229,19 +229,19 @@ library(caret)
 install.packages("e1071")
 library(e1071)
 ```
-### Test/Cross-Validate Model
+### Test/Cross-Validate Model for in-sample train data
 >Prediction and Confusion Matrix -- in-sample train data.
 ```{r}
 p <- predict(rf_0, trainingData)
 confusionMatrix(p, trainingData$classe)
 ```
-### Test/Cross-Validate Model
+### Test/Cross-Validate Model for in-sample test data
 >Prediction and Confusion Matrix -- in-sample test data.
 ```{r}
 p2 <- predict(rf_0, testingData)
 confusionMatrix(p2, testingData$classe)
 ```
-### Test/Cross-Validate Model
+### Test/Cross-Validate Model for out of sample test data
 >Prediction and Confusion Matrix -- out-of-sample test data.
 ```{r}
 p3 <- predict(rf_0, testing_2)
