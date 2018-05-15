@@ -229,19 +229,13 @@ library(caret)
 install.packages("e1071")
 library(e1071)
 ```
-### Test/Cross-Validate Model for in-sample train data
->Prediction and Confusion Matrix -- in-sample train data.
-```{r}
-p <- predict(rf_0, trainingData)
-confusionMatrix(p, trainingData$classe)
-```
 ### Test/Cross-Validate Model for in-sample test data
 >Prediction and Confusion Matrix -- in-sample test data.
 ```{r}
 p2 <- predict(rf_0, testingData)
 confusionMatrix(p2, testingData$classe)
 ```
-### Test/Cross-Validate Model for out of sample test data
+### Predicting out of sample data
 >Prediction and Confusion Matrix -- out-of-sample test data.
 ```{r}
 p3 <- predict(rf_0, testing_2)
@@ -282,14 +276,6 @@ varImpPlot(rf_0,
 ```{r}
 varUsed(rf_0)
 ```
-### Repartitioning the Data again
->Repartitioning the in-sample test data 50/50.
-```{r}
-trainingSet <- createDataPartition(y=testingData$classe, p=.5, list = FALSE )
-validationSet <- testingData[trainingSet]
-testSet <- testingData[-trainingSet]
-```
-
 
 ## Section 5: Model Proposed by 
 
