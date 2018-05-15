@@ -169,8 +169,8 @@ __classe__|B|A|B|A|A|E|D|B|A|A|B|C|B|A|E|E|A|B|B|B
 
 
 ## Section 4: Model Proposed by Mitch Stephens
-#### Pull in Raw Datasets
-Set the working directory, and download the data.
+### Pull in Raw Datasets
+>Set the working directory, and download the data.
 ```{r}
 rm(list = ls())
 getwd()
@@ -178,8 +178,8 @@ setwd("/Users/Mitch/Desktop/Econ386/ECON386REPO/Prediction Project")
 training_0 <- read.csv("training.csv")
 testing_0 <- read.csv("testing.csv")
 ```
-#### Removal of Unnecessary Columns
-Deleting the X variable and new_window variable so the randomForest model doesn't memorize the data based on the variables.
+### Removal of Unnecessary Columns
+>Deleting the X variable and new_window variable so the randomForest model doesn't memorize the data based on the variables.
 ```{r}
 testing_0$X <- NULL
 training_0$X <- NULL
@@ -188,23 +188,23 @@ training_0$new_window <- NULL
 testing_0$cvtd_timestamp <- NULL
 training_0$cvtd_timestamp <- NULL
 ```
-#### Removal of NA's 
-Saving a new data set that gets rid of all of the columns with NA's for the training data.
+### Removal of NA's 
+>Saving a new data set that gets rid of all of the columns with NA's for the training data.
 ```{r}
 library(dplyr)
 training_0[training_0 == ""] <- NA
 training_1 <- training_0 %>% select_if(~sum(!is.na(.)) > 0)
 training_2 <- training_1[,colMeans(is.na(training_1)) == 0] 
 ```
-#### Removal of NA's
-Cleaning the data to get rid of the NA values in the out of sample testing set.
+### Removal of NA's
+>Cleaning the data to get rid of the NA values in the out of sample testing set.
 ```{r}
 testing_0[testing_0 == ""] <- NA
 testing_1 <- testing_0 %>% select_if(~sum(!is.na(.)) > 0)
 testing_2 <- testing_1[,colMeans(is.na(testing_1)) == 0]
 ```
 ### Partition the training data to build the model
-Splitting the training data into 70% for training the model and 30% for testing using the in-sample training data.
+>Splitting the training data into 70% for training the model and 30% for testing using the in-sample training data.
 ```{r}
 set.seed(4321)
 trainingIndex <- sample(1:nrow(training_2),size =.7*nrow(training_2))
@@ -212,7 +212,7 @@ trainingData <- training_2[trainingIndex, ]
 testingData <- training_2[-trainingIndex, ]
 ```
 ### Random Forest Model
-Building a randomForest model using the 70% of the partitioned training data set. The more trees added, the higher the accuracy, however the more power is needed and the longer it takes for the model to run.
+>Building a randomForest model using the 70% of the partitioned training data set. The more trees added, the higher the accuracy, however the more power is needed and the longer it takes for the model to run.
 ```{r}
 library(randomForest)
 rf_0 <- randomForest(classe~.,data = trainingData, 
@@ -223,37 +223,37 @@ rf_0 <- randomForest(classe~.,data = trainingData,
 print(rf_0)
 ```
 ### Installing Packages
-Installing the "e1071" package necessary to run the confusionMatrix with the caret package.
+>Installing the "e1071" package necessary to run the confusionMatrix with the caret package.
 ```{r}
 library(caret)
 install.packages("e1071")
 library(e1071)
 ```
 ### Test/Cross-Validate Model
-Prediction and Confusion Matrix -- in-sample train data.
+>Prediction and Confusion Matrix -- in-sample train data.
 ```{r}
 p <- predict(rf_0, trainingData)
 confusionMatrix(p, trainingData$classe)
 ```
 ### Test/Cross-Validate Model
-Prediction and Confusion Matrix -- in-sample test data.
+>Prediction and Confusion Matrix -- in-sample test data.
 ```{r}
 p2 <- predict(rf_0, testingData)
 confusionMatrix(p2, testingData$classe)
 ```
 ### Test/Cross-Validate Model
-Prediction and Confusion Matrix -- out-of-sample test data.
+>Prediction and Confusion Matrix -- out-of-sample test data.
 ```{r}
 p3 <- predict(rf_0, testing_2)
 p3
 ```
 ### Viewing the Error Rate
-Error rate of the random forest model.
+>Error rate of the random forest model.
 ```{r}
 plot(rf_0)
 ```
 ### Tuning the RF Model
-Tune mtry and determine what mtry value to choose for the model to increase the accuracy.
+>Tune mtry and determine what mtry value to choose for the model to increase the accuracy.
 ```{r}
 tuneRF(trainingData[,-57], trainingData[,57],
        stepFactor = 0.5,
@@ -263,14 +263,14 @@ tuneRF(trainingData[,-57], trainingData[,57],
        improve = 0.05)
 ```
 ### Exploring more about the model pt.1
-Looking at the number of nodes per tree.
+>Looking at the number of nodes per tree.
 ```{r}
 hist(treesize(rf_0),
      main = "Number of Nodes in Trees",
      col = "green")
 ```
 ### Exploring more about the model pt.2
-Variable Importance. The left plot shows how much better or worse the model performs with each variable. The right plot shows how 
+>Variable Importance. The left plot shows how much better or worse the model performs with each variable. The right plot shows how 
 ```{r}
 varImpPlot(rf_0,
            sort = T,
@@ -278,12 +278,12 @@ varImpPlot(rf_0,
            main = "Top 15 Variables")
 ```
 ### Exploring more about the model pt.3
-Which variables are actually used within the Random Forest model. Each number corresponds to how many times it is used.
+>Which variables are actually used within the Random Forest model. Each number corresponds to how many times it is used.
 ```{r}
 varUsed(rf_0)
 ```
 ### Repartitioning the Data again
-Repartitioning the in-sample test data 50/50.
+>Repartitioning the in-sample test data 50/50.
 ```{r}
 trainingSet <- createDataPartition(y=testingData$classe, p=.5, list = FALSE )
 validationSet <- testingData[trainingSet]
