@@ -98,7 +98,75 @@ Problem_id |1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20
 -----------|-|-|-|-|-|-|-|-|-|--|--|--|--|--|--|--|--|--|--|--
 classe |B|A|B|A|A|E|D|B|A|A|B|C|B|A|E|E|A|B|B|B
 
-## Section 3: Model Proposed by
+## Section 3: Model Proposed by Dexter Offer
+### Load The Clean Datasets
+```{r}
+cleantraining <- read.csv("cleantraining.csv") #load the clean training set
+cleantesting <- read.csv("cleantesting.csv") #load the clean testing set
+```
+### Fix the Levels of the Testing Set
+> The levels of the testing set do not match the levels of the training set.This is because the testing set only contains 20 observations, so the levels do not vary as much.
+```{r}
+levels.time <- levels(cleantraining$cvtd_timestamp) #create vector of the levels of the cvtd_timestamp
+levels(cleantesting$cvtd_timestamp) <- levels.time #change the levels of cvtd_timestamp in the testing set to match the training set
+levels.window <- levels(cleantraining$new_window) #do the same for the new_window variable
+levels(cleantesting$new_window) <- levels.window
+```
+### Partition the In-Sample Testing and Training Sets
+> Partition the *cleantraining* data into two sections: 70% for training the model and 30% to test how well the model predicts and to not overfit the data.
+```{r}
+ set.seed(1234) #random number generator; randomize selection of the sample subsets
+ trainingRowIndex<-sample(1:nrow(cleantraining), size = .7*nrow(cleantraining)) 
+ #partition 70% of the data for the training, 30% of the data for testing
+ trainingData1<-cleantraining[trainingRowIndex, ] #create training set
+ testData1 <-cleantraining[-trainingRowIndex, ] #create testing set
+```
+### Random Forest Model
+> The randomForest function in R implements Breiman's random forest algorithm (based on Breiman and Cutler's original Fortran code) for classification and regression. 
+> I used all of the variables in the dataset, except for the *X* , *raw_timestamp_part_2* , *raw_timestamp_part_1* *cvtd_timestamp* variables. *X* is an id variable andTimestamp variables I determined to be unrelated to the class variable. This model uses 500 trees with the importance and proximity argument both set equal to TRUE.
+> The randomForest function creates its own partition of the data and checks the out of sample error - Out of Bag Error (OOB) - of the estimation. This is printed out after running the function along with the number of trees and the number of variables tired at each split. 
+
+```{r}
+install.packages("randomForest") #Install Random Forest package
+library(randomForest) #Load package
+print(head(trainingData1)) #View data sample
+RFModel <- randomForest(classe~. -X -raw_timestamp_part_1 -raw_timestamp_part_2 -cvtd_timestamp, data = trainingData1, ntree=500, importance=TRUE, proximity=TRUE)
+
+Number of trees: 500
+No. of variables tried at each split: 7
+
+        OOB estimate of  error rate: 0.28%
+        
+        
+```
+
+### Test/Cross-Validate Model
+> To evaluate how acurately my model is predicting the dependet classification variable I used the "caret" package in R, Using the predict()
+> To test how well the model predicted the in-sample testing data, I used a confusion matrix. 
+```{r}
+install.packages(caret) #for the confusion matrix
+library(caret)
+predictRFModel <- predict(RFModel, testData1) #creates prediction of classe with the in-sample testing data
+      Confusion Matrix and Statistics
+confusionMatrix(predictRFModel,testData1$classe) #table to describe the perfomance of the classification model
+```
+
+Results of the Confusion Matrix
+ | 
+----------|--------
+Accuracy | 99.71% 
+95% Confidence Interval | (0.9954, 0.9983)
+P-value | <2.2e-16
+### Predict The Out-of-Sample Classifications
+> The prediction of the the out-of-sample dataset class.
+```{r}
+predict <- predict(RFModel, cleantesting)
+```
+### Predictions for Out-of-Sample Classification
+Problem_id | 1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20
+------- | -|-|-|-|-|-|-|-|-|--|--|--|--|--|--|--|--|--|--|--
+__classe__|B|A|B|A|A|E|D|B|A|A|B|C|B|A|E|E|A|B|B|B
+
 
 ## Section 4: Model Proposed by
 
