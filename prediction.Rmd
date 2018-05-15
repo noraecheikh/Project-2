@@ -235,11 +235,32 @@ library(e1071)
 p2 <- predict(rf_0, testingData)
 confusionMatrix(p2, testingData$classe)
 ```
+### Results of the confusionMatrix
+
+Statistic|Value
+---------|-----
+Accuracy|0.9993
+95% CI|0.9978, 0.9998
+P-Value|<2.2e-16
+
+Prediction|A|B|C|D|E
+----------|-|-|-|-|-
+A|1114|0|0|0|0
+B|0|721|0|0|0
+C|0|0|689|2|0
+D|0|0|0|663|1
+E|0|0|0|0|705
+
 ### Predicting out of sample data
 >Prediction and Confusion Matrix -- out-of-sample test data.
 ```{r}
 p3 <- predict(rf_0, testing_2)
-p3
+```
+### Prediction Results
+
+Problem_id |1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20
+-----------|-|-|-|-|-|-|-|-|-|--|--|--|--|--|--|--|--|--|--|--
+classe |B|A|B|A|A|E|D|B|A|A|B|C|B|A|E|E|A|B|B|B
 ```
 ### Viewing the Error Rate
 >Error rate of the random forest model.
