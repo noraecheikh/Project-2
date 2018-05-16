@@ -298,7 +298,55 @@ varImpPlot(rf_0,
 varUsed(rf_0)
 ```
 
-## Section 5: Model Proposed by 
+## Section 5: Model Proposed by Derek Fine
+### Load The Clean Datasets
+```{r}
+cleantraining <- read.csv("cleantraining.csv") #load the clean training set
+cleantesting <- read.csv("cleantesting.csv") #load the clean testing set
+```
+### Fix the Testing Set (Levels)
+```{r}
+levels.time <- levels(cleantraining$cvtd_timestamp)
+levels(cleantesting$cvtd_timestamp) <- levels.time
+levels.window <- levels(cleantraining$new_window)
+levels(cleantesting$new_window) <- levels.window
+```
+### Partition the In-Sample Testing and Training Sets
+```{r}
+set.seed(1234) 
+trainingRowIndex<-sample(1:nrow(cleantraining), size = .7*nrow(cleantraining)) 
+trainingData1<-cleantraining[trainingRowIndex, ] 
+testData1 <-cleantraining[-trainingRowIndex, ]
+```
+### Support Vector Machine Model
+>The original SVM algorithm was invented by Vladimir N. Vapnik and Alexey Ya. Chervonenkis back in 1963. Today, us data scientists can use the SVM to classify the predicted movement data. 
+```{r}
+install.packages(e1071) 
+library(e1071)
+model.nc <- svm(classe~.-X , data = trainingData1)
+```
+### Test Model
+```{r}
+install.packages(caret) #for the confusion matrix
+library(caret)
+pred1<-predict(model.nc, testData1)
+confusionMatrix(pred1, testData1$classe)
+```
+Results of the Confusion Matrix
+| 
+  ----------|--------
+  Accuracy | 95.58%
+95% Confidence Interval | ( .9503, .99069)
+P-value | <2.2e-16
+### Predict The Out-of-Sample Classifications
+> The prediction of the the out-of-sample dataset class.
+```{r}
+predict <- predict(model.nc, cleantesting)
+```
+### Predictions for Out-of-Sample Classification
+Problem_id | 1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20
+------- | -|-|-|-|-|-|-|-|-|--|--|--|--|--|--|--|--|--|--|--
+  __classe__|B|A|A|A|A|E|D|B|A|A|B|C|B|A|E|E|A|B|B|B
 
 ## Section 6: Model Proposed by Nora Cheikh
 ### Load The Clean Datasets
