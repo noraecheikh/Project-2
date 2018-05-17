@@ -3,7 +3,7 @@
 > by: Derek Fine, Dexter Offer, Matt Webber, Mitchell Stephens, and Nora Cheikh
 
 # Section 1: Executive Summary and Documentation of Preprocessing
-This project includes five proposed machine learning models for classification predictions for body movement detection data, which are described in sections 2-6. We all started with the same clean datasets, which is described below, and created individual models with the training data. We varied the type of model, random samples, and variables used. In the end, we chose Dexter's Model, described in section 3, which is further explained in section 7.
+This project includes five proposed machine learning models for classification predictions for body movement detection data. We all started with the same clean datasets, which is described below, and created individual models with the training data. We varied the type of model, random samples, and variables used. Section 2 describes Matt's Model, which is a random Forest model with 50 trees. Section 3 describes Dexter's Model, which is a random Forest  model with 500 trees. Section 4 describes Mitch's Model, which is a random Forest with 100 trees. Section 5 describes Derek's Model, which is a Support Vector Machine model. Section 6 describes Nora's Model, which is a tuned Support Vector Machine model. In the end, we chose Dexter's Model, described in section 3, which is further explained in section 7.
 
 ### Cleaning Process
 #### Pull in Raw Datasets
