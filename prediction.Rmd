@@ -3,7 +3,7 @@
 > by: Derek Fine, Dexter Offer, Matt Webber, Mitchell Stephens, and Nora Cheikh
 
 # Section 1: Executive Summary and Documentation of Preprocessing
-This project includes five proposed machine learning models for classification predictions for body movement detection data, which are described in sections 2-6. We all started with the same clean datasets and created individual models with the training data. We varied the type of model, random samples, and variables used. In the end, we chose Dexter's Model, described in section 3, which is further explained in section 7.
+This project includes five proposed machine learning models for classification predictions for body movement detection data, which are described in sections 2-6. We all started with the same clean datasets, which is described below, and created individual models with the training data. We varied the type of model, random samples, and variables used. In the end, we chose Dexter's Model, described in section 3, which is further explained in section 7.
 
 ### Cleaning Process
 #### Pull in Raw Datasets
