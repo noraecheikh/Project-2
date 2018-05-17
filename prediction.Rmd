@@ -3,7 +3,7 @@
 > by: Derek Fine, Dexter Offer, Matt Webber, Mitchell Stephens, and Nora Cheikh
 
 # Section 1: Executive Summary and Documentation of Preprocessing
-This project includes five proposed machine learning models for classification predictions for body movement detection data. We all started with the same clean datasets, which is described below, and created individual models with the training data. We varied the type of model, random samples, and variables used. Section 2 describes Matt's Model, which is a random Forest model with 50 trees. Section 3 describes Dexter's Model, which is a random Forest  model with 500 trees. Section 4 describes Mitch's Model, which is a random Forest with 100 trees. Section 5 describes Derek's Model, which is a Support Vector Machine model. Section 6 describes Nora's Model, which is a tuned Support Vector Machine model. In the end, we chose Dexter's Model, described in section 3, which is further explained in section 7.
+This project includes five proposed machine learning models for classification predictions for body movement detection data. We all started with the same clean datasets, which is described below, and created individual models with the training data. We varied the type of model, random samples, and variables used. Section 2 describes Matt's Model, which is a random Forest model with 50 trees. Section 3 describes Dexter's Model, which is a random Forest  model with 500 trees. Section 4 describes Mitch's Model, which is a random Forest with 100 trees. Section 5 describes Derek's Model, which is a Support Vector Machine model. Section 6 describes Nora's Model, which is a tuned Support Vector Machine model. In the end, we chose Mitch's Model, described in section 4, which is further explained in section 7.
 
 ### Cleaning Process
 #### Pull in Raw Datasets
@@ -261,6 +261,7 @@ p3 <- predict(rf_0, testing_2)
 Problem_id |1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20
 -----------|-|-|-|-|-|-|-|-|-|--|--|--|--|--|--|--|--|--|--|--
 classe |B|A|B|A|A|E|D|B|A|A|B|C|B|A|E|E|A|B|B|B
+
 ```
 ### Viewing the Error Rate
 >Error rate of the random forest model.
@@ -418,10 +419,10 @@ __classe__|B|A|B|A|A|E|D|B|A|A|B|C|B|A|E|E|A|B|B|B
 
 
 # Section 7: Final Proposal and Discussion 
-We compared our models based on the type of model used, model complexity, accuracy of the model on the partitioned testing data, as well as the predictions of the out-of-sample classifications. All of our models predicted the same out-of-sample classifications. 
-In the end, we chose Dexter's Model, from Section 3, as our final model because this model had the highest accuracy (99.71%) out of all of the models when tested on the partitioned testing dataset.
+We compared our models based on the type of model used, model complexity, accuracy of the model on the partitioned testing data, as well as the predictions of the out-of-sample classifications. Four out of the five models predicted the same out-of-sample classifications. Out of those four, we chose the one that had the highest accuracy when tested on the partitioned testing dataset, 99.93% and only used 100 trees. Thus, our final model is Mitch's Model, from Section 4.
 
-### Predictions by Dexter's Model
+
+### Predictions by Mitch's Model
 Problem_id | 1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20
 ------- | -|-|-|-|-|-|-|-|-|--|--|--|--|--|--|--|--|--|--|--
 __classe__|B|A|B|A|A|E|D|B|A|A|B|C|B|A|E|E|A|B|B|B
