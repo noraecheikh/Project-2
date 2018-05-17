@@ -2,8 +2,8 @@
 > Group 5
 > by: Derek Fine, Dexter Offer, Matt Webber, Mitchell Stephens, and Nora Cheikh
 
-## Section 1: Executive Summary and Documentation of Preprocessing
-This project includes five proposed machine learning models for classification predictions for body movement detection data. We all started with the same clean datasets and created individual models. We varied the type of model, random samples, and variables used. We chose the {insert model} because {insert reasons}.
+# Section 1: Executive Summary and Documentation of Preprocessing
+This project includes five proposed machine learning models for classification predictions for body movement detection data, which are described in sections 2-6. We all started with the same clean datasets and created individual models with the training data. We varied the type of model, random samples, and variables used. In the end, we chose Dexter's Model, described in section 3, which is further explained in section 7.
 
 ### Cleaning Process
 #### Pull in Raw Datasets
@@ -38,7 +38,7 @@ write.csv(training2, file="cleantraining.csv", row.names = FALSE)
 write.csv(testing1, file="cleantesting.csv", row.names = FALSE)
 ```
 
-## Section 2: Model Proposed by Matt
+# Section 2: Model Proposed by Matt Webber
 ### Load the necessary libraries
 ```{r}
 library(randomForest)
@@ -98,7 +98,7 @@ Problem_id |1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20
 -----------|-|-|-|-|-|-|-|-|-|--|--|--|--|--|--|--|--|--|--|--
 classe |B|A|B|A|A|E|D|B|A|A|B|C|B|A|E|E|A|B|B|B
 
-## Section 3: Model Proposed by Dexter Offer
+# Section 3: Model Proposed by Dexter Offer
 ### Load The Clean Datasets
 ```{r}
 cleantraining <- read.csv("cleantraining.csv") #load the clean training set
@@ -168,7 +168,7 @@ Problem_id | 1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20
 __classe__|B|A|B|A|A|E|D|B|A|A|B|C|B|A|E|E|A|B|B|B
 
 
-## Section 4: Model Proposed by Mitch Stephens
+# Section 4: Model Proposed by Mitch Stephens
 ### Pull in Raw Datasets
 >Set the working directory, and download the data.
 ```{r}
@@ -298,7 +298,7 @@ varImpPlot(rf_0,
 varUsed(rf_0)
 ```
 
-## Section 5: Model Proposed by Derek Fine
+# Section 5: Model Proposed by Derek Fine
 ### Load The Clean Datasets
 ```{r}
 cleantraining <- read.csv("cleantraining.csv") #load the clean training set
@@ -323,13 +323,13 @@ testData1 <-cleantraining[-trainingRowIndex, ]
 ```{r}
 install.packages(e1071) 
 library(e1071)
-model.nc <- svm(classe~.-X , data = trainingData1)
+model1 <- svm(classe~.-X , data = trainingData1)
 ```
 ### Test Model
 ```{r}
 install.packages(caret) #for the confusion matrix
 library(caret)
-pred1<-predict(model.nc, testData1)
+pred1<-predict(model1, testData1)
 confusionMatrix(pred1, testData1$classe)
 ```
 Results of the Confusion Matrix
@@ -341,14 +341,14 @@ P-value | <2.2e-16
 ### Predict The Out-of-Sample Classifications
 > The prediction of the the out-of-sample dataset class.
 ```{r}
-predict <- predict(model.nc, cleantesting)
+predict <- predict(model1, cleantesting)
 ```
 ### Predictions for Out-of-Sample Classification
 Problem_id | 1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20
 ------- | -|-|-|-|-|-|-|-|-|--|--|--|--|--|--|--|--|--|--|--
   __classe__|B|A|A|A|A|E|D|B|A|A|B|C|B|A|E|E|A|B|B|B
 
-## Section 6: Model Proposed by Nora Cheikh
+# Section 6: Model Proposed by Nora Cheikh
 ### Load The Clean Datasets
 ```{r}
 cleantraining <- read.csv("cleantraining.csv") #load the clean training set
@@ -384,11 +384,11 @@ model.nc <- best.svm(classe~.-X -new_window, data = trainingData1, cost = 2^(2:8
 
 ### Test/Cross-Validate Model
 > The evaluation of how well this model is at predicting the classe classifications. I used the *caret* R package to cross-validate the model. Using the predict() command, I used the model to predict the in-sample testing data.
-> To test how well the model predicted the in-sample testing data, I used a confusion matrix. A confusion matrix is a table that describes the performance of the classification test. Results are shown below.
+> To test how well the model predicted the training testing data, I used a confusion matrix. A confusion matrix is a table that describes the performance of the classification test. Results are shown below.
 ```{r}
 install.packages(caret) #for the confusion matrix
 library(caret)
-predict1 <- predict(model.nc, testData1) #creates prediction of classe with the in-sample testing data
+predict1 <- predict(model.nc, testData1) #creates prediction of classe with the training testing data
 confusionMatrix(predict1,testData1$classe)
 #table to describe the perfomance of the classification model
 ```
@@ -417,8 +417,8 @@ Problem_id | 1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20
 __classe__|B|A|B|A|A|E|D|B|A|A|B|C|B|A|E|E|A|B|B|B
 
 
-## Section 7: Final Proposal and Discussion 
-We chose {insert model} as our final model because {reasons}. This model had ###.
+# Section 7: Final Proposal and Discussion 
+We chose Dexter's Model, from Section 3, as our final model because this model had the highest accuracy out of all of the models
 
 ### Predictions by Model
 Problem_id | 1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20
